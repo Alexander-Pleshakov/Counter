@@ -9,7 +9,17 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var count = 0
+    private var count: Int = 0 {
+        didSet {
+            counterValueLabel.text = String(count)
+        }
+    }
+    
+    private var logText: String = "История изменений:\n" {
+        didSet {
+            logTextView.text = "История изменений:\n\n" + logText
+        }
+    }
     
     @IBOutlet weak private var counterValueLabel: UILabel!
     @IBOutlet weak private var addButton: UIButton!
@@ -19,31 +29,27 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         logTextView.text = "История изменений:\n"
     }
     
     
     @IBAction private func buttonAddOne(_ sender: Any) {
         count += 1
-        counterValueLabel.text = "Значение счетчика: \(count)"
-        logTextView.text += "[\(Date().formatted(date: .numeric, time: .standard))]: значение изменено на +1\n"
+        logText = "[\(Date().formatted(date: .numeric, time: .standard))]: значение изменено на +1\n" + logText
     }
     
     @IBAction private func buttonSubtractOne(_ sender: Any) {
         guard count > 0 else {
-            logTextView.text += "[\(Date().formatted(date: .numeric, time: .standard))]: попытка уменьшить значение счётчика ниже 0\n"
+            logText = "[\(Date().formatted(date: .numeric, time: .standard))]: попытка уменьшить значение счётчика ниже 0\n" + logText
             return
         }
         count -= 1
-        counterValueLabel.text = "Значение счетчика: \(count)"
-        logTextView.text += "[\(Date().formatted(date: .numeric, time: .standard))]: значение изменено на -1\n"
+        logText = "[\(Date().formatted(date: .numeric, time: .standard))]: значение изменено на -1\n" + logText
     }
     
     @IBAction private func buttonClear(_ sender: Any) {
         count = 0
-        counterValueLabel.text = "Значение счетчика: 0"
-        logTextView.text += "[\(Date().formatted(date: .numeric, time: .standard))]: значение сброшено\n"
+        logText = "[\(Date().formatted(date: .numeric, time: .standard))]: значение сброшено\n" + logText
     }
 }
 
